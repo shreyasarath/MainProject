@@ -64,13 +64,13 @@ public class User {
 	
 	 @ManyToMany(cascade = CascadeType.ALL)
 	 @JoinTable(name = "user_tc_mapping")//, joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
-	 @JsonManagedReference
+	 //@JsonManagedReference(value="UserAndTC")
 	 private List<TelecomCircle> tc;
 	 
 	
 	 @ManyToMany(cascade = CascadeType.ALL)
 	 @JoinTable(name = "user_plan_mapping")//, joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
-	 @JsonManagedReference
+	 //@JsonManagedReference(value="UserAndPD")
 	 private List<PlanDetails> pd;
 
 

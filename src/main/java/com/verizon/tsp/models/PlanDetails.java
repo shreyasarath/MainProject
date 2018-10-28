@@ -48,11 +48,11 @@ public class PlanDetails {
 	
 	 @ManyToMany(cascade = CascadeType.ALL)
 	 @JoinTable(name = "plan_tc_mapping")//, joinColumns = @JoinColumn(name = "plan_id", referencedColumnName = "plan_id"), inverseJoinColumns = @JoinColumn(name = "tcId", referencedColumnName = "tcId"))
-	 @JsonManagedReference
+	 //@JsonManagedReference(value="TCAndPD")
 	 private List<TelecomCircle> tc;
 	 
 	 @ManyToMany(mappedBy="pd")
-	 @JsonBackReference
+	 @JsonBackReference(value="UserAndPD")
 	 private List<User> user;
 	 
 		public PlanDetails() {

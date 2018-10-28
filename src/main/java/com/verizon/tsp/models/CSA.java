@@ -8,11 +8,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
@@ -30,18 +35,30 @@ public class CSA {
 	private String csaLname;
 	
 	@NotEmpty(message="Phone Number can not be empty")
+	@Pattern(regexp="\\d{10}",message="mobile number can be ony 10 digits")
 	private String csaMobileNo;
 	
 	@NotEmpty(message="Email Id can not be null")
 	@Email(message="Invalid Email Id")
 	private String csaEmailId;
 	
-	/*@OneToOne(mappedBy="telecomcircle",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	private TelecomCircle tc;
-	*/
+	
 	@Enumerated(EnumType.STRING)
 	private PrimaryLanguage csaPrimaryLang;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="tc")
+	@JsonBackReference(value="CSAAndTC")
+	private TelecomCircle tc;
+	
+	public TelecomCircle getTc() {
+		return tc;
+	}
+
+	public void setTc(TelecomCircle tc) {
+		this.tc = tc;
+	}
+
 	public CSA() {
 		
 	}
@@ -94,8 +111,11 @@ public class CSA {
 		this.csaPrimaryLang = csaPrimaryLang;
 	}
 
-	public CSA(long csaId, String csaFname,
-			 String csaLname, String csaMobileNo, String csaEmailId,PrimaryLanguage csaPrimaryLang) {
+	public CSA(long csaId, @NotEmpty(message = "First Name can not be empty") String csaFname,
+			@NotEmpty(message = "Last Name can not be empty") String csaLname,
+			@NotEmpty(message = "Phone Number can not be empty") @Pattern(regexp = "\\d{10}", message = "mobile number can be ony 10 digits") String csaMobileNo,
+			@NotEmpty(message = "Email Id can not be null") @Email(message = "Invalid Email Id") String csaEmailId,
+			PrimaryLanguage csaPrimaryLang, TelecomCircle tc) {
 		super();
 		this.csaId = csaId;
 		this.csaFname = csaFname;
@@ -103,7 +123,11 @@ public class CSA {
 		this.csaMobileNo = csaMobileNo;
 		this.csaEmailId = csaEmailId;
 		this.csaPrimaryLang = csaPrimaryLang;
+		this.tc = tc;
 	}
+
+	
+	
 	
 	
 

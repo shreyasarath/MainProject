@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -41,15 +42,38 @@ public class TelecomCircle {
 	*/
 	
 	@ManyToMany(mappedBy="tc")
-	@JsonBackReference
+	@JsonBackReference(value="TCAndPD")
 	private List<PlanDetails> pd;
 	
 	@ManyToMany(mappedBy="tc")
-	@JsonBackReference
+	@JsonBackReference(value="UserAndTC")
 	private List<User> user;
+	
+	
+	@OneToMany(mappedBy="tc",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	//@JsonManagedReference(value="CSAAndTC")
+	private List<CSA> csa;
+	
+	public List<CSA> getCsa() {
+		return csa;
+	}
+
+	public void setCsa(List<CSA> csa) {
+		this.csa = csa;
+	}
+
 	public List<PlanDetails> getPd() {
 		return pd;
 	}
+
+	public List<User> getUser() {
+		return user;
+	}
+
+	public void setUser(List<User> user) {
+		this.user = user;
+	}
+
 
 	public void setPd(List<PlanDetails> pd) {
 		this.pd = pd;
@@ -59,10 +83,11 @@ public class TelecomCircle {
 
 	}
 
+	
 
 
 	public TelecomCircle(long tcId, String state, String district, String city, PrimaryLanguage primaryLang,
-			List<PlanDetails> pd) {
+			List<PlanDetails> pd, List<User> user, List<CSA> csa) {
 		super();
 		this.tcId = tcId;
 		this.state = state;
@@ -70,6 +95,8 @@ public class TelecomCircle {
 		this.city = city;
 		this.primaryLang = primaryLang;
 		this.pd = pd;
+		this.user = user;
+		this.csa = csa;
 	}
 
 	public long getTcId() {
